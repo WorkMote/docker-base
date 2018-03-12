@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Get the command triggered originally.
+command=$(basename -- "$0")
+
+# Setup some vars to be used in the process of triggering the original snap command.
+export SNAP="/snap/$command"
+
+# Call the original command wrapper.
+exec "/snap/$command/command-${command}.wrapper" "$@"
