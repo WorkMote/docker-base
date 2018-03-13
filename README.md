@@ -133,5 +133,7 @@ Solution, go back to *sudo* and use it, despite the warning messages when instal
   Current treatment to put snaps at work is very limited, and supports counted scenarios for different snaps.
   ***ATM***, it's necessary to test every new snap added to verify it can do its work correctly.
 
+* ***githooks*** solution is provided, but is not working properly yet. See its repo for details.
+
 * Pendings
   - check supervisor files

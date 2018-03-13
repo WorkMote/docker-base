@@ -37,7 +37,8 @@ apt-get install -y \
 # in a not so fast container start, etc. Also, putting them here help us control and understand structure
 # better.
 apt-get install -y \
-	bindfs
+	bindfs \
+	git
 
 # Perform a general data clean up.
 apt-get autoremove --purge
