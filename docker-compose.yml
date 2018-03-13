@@ -1,4 +1,5 @@
-version: '3'
-services: 
-  web:
-    
+version: '3.5'
+services:
+  base:
+    build: .
+    image: workmote:base
