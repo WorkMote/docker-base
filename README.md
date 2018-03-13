@@ -134,9 +134,4 @@ Solution, go back to *sudo* and use it, despite the warning messages when instal
   ***ATM***, it's necessary to test every new snap added to verify it can do its work correctly.
 
 * Pendings
-  - package githooks
-  - package apply-shell-expansion
-  - package pass-phrase
-  - package keychain-starter
-  - package only-root-user-complainer (???)
   - check supervisor files
