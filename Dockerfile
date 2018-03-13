@@ -42,10 +42,10 @@ RUN /tmp/04-packages-installation/packages-installation.sh \
   && rm -r /tmp/04-packages-installation/
 
 # 05
-# sshd configuration.
-COPY build/05-sshd-configuration/ /tmp/05-sshd-configuration/
-RUN /tmp/05-sshd-configuration/sshd-configuration.sh \
-  && rm -r /tmp/05-sshd-configuration/
+# ssh/sshd configuration.
+COPY build/05-ssh-sshd-configuration/ /tmp/05-ssh-sshd-configuration/
+RUN /tmp/05-ssh-sshd-configuration/ssh-sshd-configuration.sh \
+  && rm -r /tmp/05-ssh-sshd-configuration/
 
 # 06
 # tzdata configuration.

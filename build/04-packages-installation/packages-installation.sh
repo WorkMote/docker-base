@@ -13,6 +13,7 @@ apt-get install -y \
 	bsdmainutils \
 	debconf-utils \
   iproute2 \
+	keychain \
   less \
   locales \
 	man-db \
