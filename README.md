@@ -145,4 +145,4 @@ Solution, go back to *sudo* and use it, despite the warning messages when instal
 * ***githooks*** solution is provided, but is not working properly yet. See its repo for details.
 
 * Pendings
-  - check supervisor files
+  - fix githooks
