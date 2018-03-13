@@ -2,6 +2,11 @@
 
 Base image to use in Docker Envs for WorkMote.
 
+## Description
+
+This is the base image used to build other functionality pieces in WorkMote. All configuration
+details resides in the **[build](build)** folder. Please refer to it for more details.
+
 ## About folders structure
 
 As seen, main folder only contains data that Docker can use directly. The rest of the magic lives
