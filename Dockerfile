@@ -1,11 +1,11 @@
 FROM ubuntu:17.10
 
-# Version number for Local development environment for Bluetent client as Workmote.
-LABEL com.workmote.bluetent.local.version="0.1"
-# Purpose of anything here installed for Local development environment for Bluetent client as Workmote.
-LABEL com.workmote.bluetent.local.purpose="base"
-# Application name here installed for Local development environment for Bluetent client as Workmote.
-LABEL com.workmote.bluetent.local.app="base"
+# Version number for WorkMote's Docker Base Image.
+LABEL com.workmote.base.version="0.1"
+# Purpose of anything here installed for WorkMote's Docker Base Image.
+LABEL com.workmote.base.purpose="base"
+# Application name here installed for WorkMote's Docker Base Image.
+LABEL com.workmote.base.app="base"
 
 # To avoid having errors like "unable to initialize frontend: Dialog" when packages
 # are upgraded/installed.
