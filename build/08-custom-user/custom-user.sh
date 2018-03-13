@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Add a script to complain when root user was used to login.
+mv $(cd `dirname $0` && pwd)/only-root-user-complainer.sh /etc/profile.d/
+
 # Set the new user account name
 NEW_USER_NAME='workmote'
 
