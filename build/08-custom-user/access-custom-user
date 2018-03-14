@@ -1,0 +1,15 @@
+#!/bin/bash
+
+NEW_USER_NAME='workmote'
+NEW_USER_KEY_NAME='id_rsa'
+NEW_USER_HOME=$(getent passwd "$NEW_USER_NAME" | cut -d: -f6)
+NEW_USER_SSH_KEY="/run/secrets/$NEW_USER_KEY_NAME"
+
+# Check the presence of the key in /run/secrets/
+if [ ! -f "$NEW_USER_SSH_KEY" ]; then
+  exit
+fi
+
+# Copy the found secret key passed. Perms are not checked as those are
+# supposed to be correctly set.
+cp $NEW_USER_SSH_KEY "$NEW_USER_HOME/.ssh/"

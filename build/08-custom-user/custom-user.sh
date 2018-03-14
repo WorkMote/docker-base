@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Add a script that will copy ssh keys (if present) passed to running container
+# to be used in ssh access process.
+mv $(cd `dirname $0` && pwd)/access-custom-user /usr/local/bin/
+
 # Add a script to complain when root user was used to login.
 mv $(cd `dirname $0` && pwd)/only-root-user-complainer.sh /etc/profile.d/
 
@@ -22,3 +26,8 @@ adduser $NEW_USER_NAME adm
 adduser $NEW_USER_NAME sudo
 echo "$NEW_USER_NAME ALL=NOPASSWD: ALL" > /etc/sudoers.d/$NEW_USER_NAME
 chmod 440 /etc/sudoers.d/$NEW_USER_NAME
+
+# Set ready the ".ssh" folder in user's home
+NEW_USER_HOME=$(getent passwd "$NEW_USER_NAME" | cut -d: -f6)
+mkdir -p "$NEW_USER_HOME/.ssh/"
+chmod 0700 "$NEW_USER_HOME/.ssh/"
