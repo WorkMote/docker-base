@@ -40,6 +40,7 @@ RUN /tmp/03-system-upgrade/system-upgrade.sh \
 COPY build/04-packages-installation/ /tmp/04-packages-installation/
 RUN /tmp/04-packages-installation/packages-installation.sh \
   && rm -r /tmp/04-packages-installation/
+EXPOSE 22
 
 # 05
 # ssh/sshd configuration.
