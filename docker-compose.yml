@@ -1,8 +1,14 @@
 version: '3.5'
 services:
   base:
+    # Defines is the current compose run must pull the image from cloud or build it
+    # based on data here defined. (Image 1) defines the cloud version image and (Image 2)
+    # a name not cloud based, to be used in local builds.
     build: .
+    ### (Image 1)
     image: workmote/base
+    ### (Image 2)
+    # image: wrk.mt-base
 
     # Basic naming conventions for running container.
     container_name: workmote-base

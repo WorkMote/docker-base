@@ -193,3 +193,7 @@ Docker's network model and customize it from it.
   https://github.com/genuinetools/bane
   https://cloud.google.com/container-optimized-os/docs/how-to/secure-apparmor
   https://medium.com/lucjuggery/docker-selinux-30-000-foot-view-30f6ef7f621
+
+* Test a better way to trigger subprocesses (currently using supervisord and sudo),
+  so first, sudo is not mantained as PID 1, and then, to let supervisord or any
+  other PID 1 process, to be able to capture signals sent (for instance, from console)
