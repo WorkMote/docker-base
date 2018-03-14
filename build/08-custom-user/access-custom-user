@@ -14,3 +14,10 @@ cp -ar "$NEW_USER_SSH_KEYS/"* "$NEW_USER_HOME/.ssh/"
 
 # Change files' ownsership to match correct user.
 chown "$NEW_USER_NAME.$NEW_USER_NAME" "$NEW_USER_HOME/.ssh/"* -R
+
+# Add pub keys passed as authorized keys to access container.
+cat "$NEW_USER_HOME/.ssh/"*.pub >> "$NEW_USER_HOME/.ssh/authorized_keys"
+
+# Fix ownsership and perms in file just affected.
+chown "$NEW_USER_NAME.$NEW_USER_NAME" "$NEW_USER_HOME/.ssh/authorized_keys"
+chmod 0600 "$NEW_USER_HOME/.ssh/authorized_keys"
