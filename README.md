@@ -111,6 +111,14 @@ about why gosu is risky (basically its usage in any interactive shell can be ris
 
 Solution, go back to *sudo* and use it, despite the warning messages when installed.
 
+## About read only and tmpfs accesses
+
+Docker compose file enforces the read-only approach in cointainers, while leaving open
+access to tmpfs defined point and, of course, to volumes (read only can not prevent writings
+there). Here are the reasons for such configuration and general info:
+https://www.projectatomic.io/blog/2015/12/making-docker-images-write-only-in-production/
+https://rehansaeed.com/docker-read-file-systems/
+
 
 ## TODOs
 * A Warning is still displayed on 'apt-get update' because apt-utils was not found.
@@ -144,5 +152,11 @@ Solution, go back to *sudo* and use it, despite the warning messages when instal
 
 * ***githooks*** solution is provided, but is not working properly yet. See its repo for details.
 
-* Pendings
-  - fix githooks
+* Current docker-compose file disables apparmor confinement to enable fuse mounts inside the cointainer. Improve
+  this approach by instead of removing apparmor protection, load a less strict profile
+  More info here:
+  https://docs.docker.com/engine/security/apparmor/
+  https://wiki.ubuntu.com/AppArmor
+  https://github.com/genuinetools/bane
+  https://cloud.google.com/container-optimized-os/docs/how-to/secure-apparmor
+  https://medium.com/lucjuggery/docker-selinux-30-000-foot-view-30f6ef7f621
