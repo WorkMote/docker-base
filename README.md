@@ -56,9 +56,21 @@ https://github.com/abourget/secrets-bridge
 
 ## About *sshd service* configuration
 
-Som extra steps were required in order to have the service ready to be launched once a container
+Some extra steps were required in order to have the service ready to be launched once a container
 is run. Security was also improved by disabling root access and password only access. To access
 a container, keys must be provided beforehand using Docker mechanisms.
+
+IMPORTANT: NOTE on DEPRECATED!
+Originally the image was conceived to run a ssh-agent, so it can store ssh-keys that,
+in some way, would be used by the container. That proved to be a nice challenge, in
+particular for keys with passphrase, but in the end it was a bad idea, as ssh-agent
+running remotely, well, is clearly a bad idea because if server gets compromised, our ssh
+agent too and with it, accesses we can control.
+
+More here:
+https://serverfault.com/a/672386
+
+To use local host agent on containers (or any remote), use "ssh -A"
 
 ## About *tzdata* configuration
 
