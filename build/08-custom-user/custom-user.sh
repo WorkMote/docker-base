@@ -30,4 +30,5 @@ chmod 440 /etc/sudoers.d/$NEW_USER_NAME
 # Set ready the ".ssh" folder in user's home
 NEW_USER_HOME=$(getent passwd "$NEW_USER_NAME" | cut -d: -f6)
 mkdir -p "$NEW_USER_HOME/.ssh/"
+chown "$NEW_USER_NAME.$NEW_USER_NAME" "$NEW_USER_HOME/.ssh/"
 chmod 0700 "$NEW_USER_HOME/.ssh/"

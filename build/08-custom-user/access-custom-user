@@ -1,15 +1,16 @@
 #!/bin/bash
 
 NEW_USER_NAME='workmote'
-NEW_USER_KEY_NAME='id_rsa'
 NEW_USER_HOME=$(getent passwd "$NEW_USER_NAME" | cut -d: -f6)
-NEW_USER_SSH_KEY="/run/secrets/$NEW_USER_KEY_NAME"
+NEW_USER_SSH_KEYS="/run/secrets/ssh-keys/"
 
-# Check the presence of the key in /run/secrets/
-if [ ! -f "$NEW_USER_SSH_KEY" ]; then
-  exit
+# Check there's data in the ssh keys expected repo.
+if [ -z "$(ls -A $NEW_USER_SSH_KEYS)" ]; then
+  exit 1
 fi
 
-# Copy the found secret key passed. Perms are not checked as those are
-# supposed to be correctly set.
-cp $NEW_USER_SSH_KEY "$NEW_USER_HOME/.ssh/"
+# Copy the found keys.
+cp -ar "$NEW_USER_SSH_KEYS/"* "$NEW_USER_HOME/.ssh/"
+
+# Change files' ownsership to match correct user.
+chown "$NEW_USER_NAME.$NEW_USER_NAME" "$NEW_USER_HOME/.ssh/"* -R

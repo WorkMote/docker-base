@@ -119,6 +119,27 @@ there). Here are the reasons for such configuration and general info:
 https://www.projectatomic.io/blog/2015/12/making-docker-images-write-only-in-production/
 https://rehansaeed.com/docker-read-file-systems/
 
+## About network model connection
+
+The network connection model defined in compose file is such that it connects to the bridge
+Docker daemon already offers. When that is not set, docker compose will create a new bridge
+network, with it's iptables and stuff to offer container's connectivity. However, that doesn't
+allow incoming traffic, for instance from host, other than ICMP and things like that
+(more here https://docs.docker.com/network/).
+
+By defining network_mode: "bridge", that tells the container's network to simply connect to
+Docker daemon bridge in host. This allows incoming host traffic, and truly make this appear as
+a VM to the host. For this setting to be set, there's no need to define top-level
+'network' entries, as we are simply connecting to the existing bridge Docker already has.
+
+Top-Level netowork entries are required when more customized network accesses are required.
+
+**IMPORTANT** to notice, is network not simply creates the interfaces and communication between
+them, but also set connection rules like iptables. This is really important when an isolated
+environment is required, an thinking in offering network: "none" plus custom network interfaces
+and bridges work will be enough. There's more things happening in back so, try to stick to
+Docker's network model and customize it from it.
+
 
 ## TODOs
 * A Warning is still displayed on 'apt-get update' because apt-utils was not found.
