@@ -3,15 +3,16 @@
 ################
 # SSH (Client) #
 ################
-# Set ssh-agent to auto add keys. It's assumed target file (/etc/ssh/ssh_config) has
-# no 'AddKeysToAgent' key defined yet, so it's safe to simply add it. However, if 
-# that file has been modified previously in a way more Hosts are set, act differently
-# so you can be sure the effect of adding this flag won't mean a problem for other
-# configs already set.
-echo '    AddKeysToAgent yes' >> /etc/ssh/ssh_config
+# (DEPRECATED)
+# # Set ssh-agent to auto add keys. It's assumed target file (/etc/ssh/ssh_config) has
+# # no 'AddKeysToAgent' key defined yet, so it's safe to simply add it. However, if 
+# # that file has been modified previously in a way more Hosts are set, act differently
+# # so you can be sure the effect of adding this flag won't mean a problem for other
+# # configs already set.
+# echo '    AddKeysToAgent yes' >> /etc/ssh/ssh_config
 
-# Install the keychain starter file to affect every connected user.
-mv $(cd `dirname $0` && pwd)/keychain-starter.sh /etc/profile.d/
+# # Install the keychain starter file to affect every connected user.
+# mv $(cd `dirname $0` && pwd)/keychain-starter.sh /etc/profile.d/
 
 #################
 # SSHD (Server) #
