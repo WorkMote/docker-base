@@ -2,4 +2,71 @@ version: '3.5'
 services:
   base:
     build: .
-    image: workmote:base
+    # image: workmote/base
+    image: base
+
+    # Basic naming conventions for running container.
+    container_name: workmote-base
+    hostname: workmote-base
+
+    # Add setting to allow fuse mounts inside container.
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    # TODO: Used to let containers use mount for fuse support. AppArmor profile used
+    # prevents such things, even if other capabilities and devices were added. To
+    # overcome that, all AppArmor confinement is removed (no bueno!) but it works
+    # In the future consider loading a profile with only required access enabled.
+    security_opt:
+      - apparmor:unconfined
+
+    # Connects container to bridge offered in Docker's host. Leaving this undefined
+    # tell docker compose to create a new isolated network, and connect container
+    # it. Host won't be able to talk to container in other forms other than basic
+    # ICMP (like ping).
+    network_mode: "bridge"
+
+    # Desired configuration, to avoid processes to write to anything else other than
+    # volumes and certain folders. Good for production specially. Disable to perform
+    # container functionality tests. tmpfs entries enables mount point to be writable
+    # but in a temporary space.
+    # In case container's app must perform more action, like writing to /home/, etc, 
+    # consider disable this to avoid problems.
+    #
+    # read_only: true
+    # tmpfs:
+    #   - /run
+    #   - /tmp
+
+    # Load secrets info to be used in the container.
+    secrets:
+      - source: ssh-keys
+
+    # NOTE: Comment the next section in case no volume is used by container. It's gonna be
+    # just point less to access container, if not necessary.
+    # Mount the data folder in container's volume.
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data
+
+    # IMPORTANT: Next entries (Section 1) are only used for TESTING purposes, while
+    # using this very same docker-compose file. Consider disabling "read_only" entry
+    # to have a complete testing experience.
+    #
+    # While (Section 2) enables the NORMAL behavior of the container by letting it
+    # run defined processes under supervisor.
+    #
+    # If no entrypoint is set, default image's entrypoint will be used.
+    ### (Section 1)
+    # entrypoint: bash
+    # stdin_open: true
+    # tty: true
+    ### (Section 2)
+    # entrypoint: sudo /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+
+# Pass ssh-keys info to be used to access container via ssh.
+secrets:
+  ssh-keys:
+    file: secrets/ssh-keys/
