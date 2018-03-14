@@ -2,8 +2,7 @@ version: '3.5'
 services:
   base:
     build: .
-    # image: workmote/base
-    image: base
+    image: workmote/base
 
     # Basic naming conventions for running container.
     container_name: workmote-base
