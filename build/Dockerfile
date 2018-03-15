@@ -2,6 +2,8 @@ FROM ubuntu:17.10
 
 # Version number for WorkMote's Docker Base Image.
 LABEL com.workmote.base.version="0.1"
+# Maintainer for WorkMote's Docker Base Image.
+LABEL com.workmote.base.maintainer="Daniel Dalgo <dalguete@gmail.com>"
 # Purpose of anything here installed for WorkMote's Docker Base Image.
 LABEL com.workmote.base.purpose="base"
 # Application name here installed for WorkMote's Docker Base Image.
