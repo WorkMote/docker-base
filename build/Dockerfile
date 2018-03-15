@@ -13,44 +13,44 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # 00
 # Prompt setup process.
-COPY build/00-prompt-setup/ /tmp/00-prompt-setup/
+COPY 00-prompt-setup/ /tmp/00-prompt-setup/
 RUN /tmp/00-prompt-setup/prompt-setup.sh \
   && rm -r /tmp/00-prompt-setup/
 
 # 01
 # Start up processes after installation policy
-COPY build/01-start-up-policy/ /tmp/01-start-up-policy/
+COPY 01-start-up-policy/ /tmp/01-start-up-policy/
 RUN /tmp/01-start-up-policy/start-up-policy.sh \
   && rm -r /tmp/01-start-up-policy/
 
 # 02
 # Load debconf selections for packages to be installed.
-COPY build/02-packages-defaults/ /tmp/02-packages-defaults/
+COPY 02-packages-defaults/ /tmp/02-packages-defaults/
 RUN /tmp/02-packages-defaults/packages-defaults.sh \
 	&& rm -r /tmp/02-packages-defaults/
 
 # 03
 # System upgrade.
-COPY build/03-system-upgrade/ /tmp/03-system-upgrade/
+COPY 03-system-upgrade/ /tmp/03-system-upgrade/
 RUN /tmp/03-system-upgrade/system-upgrade.sh \
   && rm -r /tmp/03-system-upgrade/
 
 # 04
 # Packages installation.
-COPY build/04-packages-installation/ /tmp/04-packages-installation/
+COPY 04-packages-installation/ /tmp/04-packages-installation/
 RUN /tmp/04-packages-installation/packages-installation.sh \
   && rm -r /tmp/04-packages-installation/
 EXPOSE 22
 
 # 05
 # ssh/sshd configuration.
-COPY build/05-ssh-sshd-configuration/ /tmp/05-ssh-sshd-configuration/
+COPY 05-ssh-sshd-configuration/ /tmp/05-ssh-sshd-configuration/
 RUN /tmp/05-ssh-sshd-configuration/ssh-sshd-configuration.sh \
   && rm -r /tmp/05-ssh-sshd-configuration/
 
 # 06
 # tzdata configuration.
-COPY build/06-tzdata-configuration/ /tmp/06-tzdata-configuration/
+COPY 06-tzdata-configuration/ /tmp/06-tzdata-configuration/
 RUN /tmp/06-tzdata-configuration/tzdata-configuration.sh \
   && rm -r /tmp/06-tzdata-configuration/
 
@@ -75,13 +75,13 @@ ENV LANG=en_US.UTF-8 \
 
 # 08
 # Custom user configuration.
-COPY build/08-custom-user/ /tmp/08-custom-user/
+COPY 08-custom-user/ /tmp/08-custom-user/
 RUN /tmp/08-custom-user/custom-user.sh \
   && rm -r /tmp/08-custom-user/
 
 # 09
 # snap packages configuration.
-COPY build/09-snap-packages/ /tmp/09-snap-packages/
+COPY 09-snap-packages/ /tmp/09-snap-packages/
 RUN /tmp/09-snap-packages/snap-packages.sh \
   && rm -r /tmp/09-snap-packages/
 ENV PATH="${PATH}:/snap/bin"
@@ -93,11 +93,11 @@ VOLUME /data/
 
 # 11
 # Setup the default welcome message process.
-COPY build/11-welcome/workmote.sh /opt/
+COPY 11-welcome/workmote.sh /opt/
 
 # 12
 # Set the main processes for supervisor to run. The reason of containers using this image.
-COPY build/12-supervisor/ /etc/supervisor/conf.d/
+COPY 12-supervisor/ /etc/supervisor/conf.d/
 
 # 13
 # Setup the user to use to trigger any process inside this contained.
