@@ -197,3 +197,6 @@ Docker's network model and customize it from it.
 * Test a better way to trigger subprocesses (currently using supervisord and sudo),
   so first, sudo is not mantained as PID 1, and then, to let supervisord or any
   other PID 1 process, to be able to capture signals sent (for instance, from console)
+
+* Generalize so no hardcoded info is set (like username "workmote"). Such things must be configurable
+  at **build** phase (using ARG directives)

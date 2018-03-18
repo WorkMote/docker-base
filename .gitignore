@@ -1,4 +1,6 @@
-secrets/*
-!secrets/README*
 configs/*
 !configs/README*
+data/*
+!data/README*
+secrets/*
+!secrets/README*

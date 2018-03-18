@@ -13,6 +13,10 @@ LABEL com.workmote.base.app="base"
 # are upgraded/installed.
 ARG DEBIAN_FRONTEND=noninteractive
 
+# Start everything as the expected (generally) root user, so there won't be
+# installation problems in case base image has set USER to something different.
+USER root
+
 # 00
 # Prompt setup process.
 COPY 00-prompt-setup/ /tmp/00-prompt-setup/
@@ -102,15 +106,21 @@ COPY 11-welcome/workmote.sh /opt/
 COPY 12-supervisor/ /etc/supervisor/conf.d/
 
 # 13
+# Perform some final processes.
+COPY 13-finally/ /tmp/13-finally/
+RUN /tmp/13-finally/finally.sh \
+  && rm -r /tmp/13-finally/
+
+# 14
 # Setup the user to use to trigger any process inside this contained.
 USER workmote
 
-# 14
+# 15
 # Default process run when nothing explicitely set.
 # Notice the usage of 'sudo', to enable current user execute root's tasks.
 ENTRYPOINT exec sudo /opt/workmote.sh
 
-# 15
+# 16
 # For any child image build on top of this, trigger processes as defined for the controller script.
 # Notice the usage of 'sudo', to enable current user execute root's tasks.
 ONBUILD ENTRYPOINT exec sudo /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
