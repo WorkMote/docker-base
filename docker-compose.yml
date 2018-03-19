@@ -76,7 +76,7 @@ services:
     # entrypoint: sudo /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 
 # Pass configs to container.
-# config:
+# configs:
 #   ini:
 #     file: config/configs.ini
 
