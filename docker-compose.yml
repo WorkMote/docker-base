@@ -45,6 +45,7 @@ services:
     #   - /tmp
 
     # Load configs info to be used in the container.
+    # NOTE: so far only swarm compatible, so better use "secrets"
     # configs:
     #   - source: ini
 
@@ -76,6 +77,7 @@ services:
     # entrypoint: sudo /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 
 # Pass configs to container.
+# NOTE: so far only swarm compatible, so better use "secrets"
 # configs:
 #   ini:
 #     file: config/configs.ini
