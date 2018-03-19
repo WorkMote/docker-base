@@ -7,6 +7,18 @@ Base image to use in Docker Envs for WorkMote.
 This is the base image used to build other functionality pieces in WorkMote. All configuration
 details resides in the **[build](build)** folder. Please refer to it for more details.
 
+## About backing repos
+
+WorkMote's Docker's repos MUST live as public ones under github.com/workmote, so they will be public.
+
+Client's repos MUST live under https://bitbucket.org/workmote/, so they will be private. Per client a new
+project must be created, and repos for it, under it. Project name must be <client moniker>-<Company Name> and
+project key must be <client moniker>, where <client moniker> is a id code for the client.
+
+About repos naming, when referencing a Dockerfile build, they must be named **docker-<image key name>**,
+where **<image-key-name>** is the name selected for the image as set in the docker.compose.yml file.
+See "About Dockerfile schema" below to understand these entries meaning.
+
 ## About Dockerfile schema
 
 Labels used to identify image, must say something but in an ordered way. Structure is a follows:
