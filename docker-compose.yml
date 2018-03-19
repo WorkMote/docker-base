@@ -44,6 +44,10 @@ services:
     #   - /run
     #   - /tmp
 
+    # Load configs info to be used in the container.
+    # configs:
+    #   - source: ini
+
     # Load secrets info to be used in the container.
     secrets:
       - source: ssh-keys
@@ -70,6 +74,11 @@ services:
     # tty: true
     ### (Section 2)
     # entrypoint: sudo /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+
+# Pass configs to container.
+# config:
+#   ini:
+#     file: config/configs.ini
 
 # Pass ssh-keys info to be used to access container via ssh.
 secrets:

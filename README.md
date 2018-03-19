@@ -7,6 +7,44 @@ Base image to use in Docker Envs for WorkMote.
 This is the base image used to build other functionality pieces in WorkMote. All configuration
 details resides in the **[build](build)** folder. Please refer to it for more details.
 
+## About Dockerfile schema
+
+Labels used to identify image, must say something but in an ordered way. Structure is a follows:
+
+**com.workmote.<we|they>.<client moniker>.<image-key-name>.<aspect>=<value>**
+
+It uses a reverse DNS structure, to identify things from the one broader in aspect to the smaller
+ones; where:
+
+- **com.workmote**: it's the base, used to uniquely identify the whole as WorkMote's
+- **<we|they>**: to identify the image to something to be used by in WorkMote's products (we) or 
+  aimed to some client (they)
+- **<client moniker>**: only used when the previous entry was a *they*, or in the case we are working
+  with ourselves as clients (our moniker will always be wm). If previous entry was a *we*, dont'
+  set this.
+- **<image-key-name>**: a unique name under the context of the other keys, used to identify the
+  image being built. Can be anything, but something succinct is recommended. Gonna depend on the
+  context you are working.
+- **<aspect>**: something meaning that will give extra information about this image, like, but not
+  restricted to: version, maintainer, purpose, app, etc. Its the image's metadata info.
+- **<value>**: simply the value of the key generated. Metadata's entry value.
+
+USER entry: This is explicitely set to avoid having surprises when the rest of operations are run, maybe
+due to a FROM image that left a different user set as result.
+
+Named Sections: All tasks are grouped into named sections that will pursue a purpose. Generally they will
+need files and scripts, ones that will be found in a folder under *build/*, and named the same as the
+section. Any Dockerfile directive can be added with the solely requirement of serving one purpose
+AND trying to keep that purpose as simple as possible.
+
+USER final: This is were the newly non-root user is set. This user is gonna be used to run anything
+this image has as container. We enforce the non-root usage at all level, that's why this it mandatory.
+
+ENTRYPOINT and ONBUILD ENTRYPOINT: Finally set some instructions on how to run this images and/or how
+derived images from this will have to run their procesees. Unless a different thing is required, this
+will have to be kept as points to run supervisor, and derived images will display both of them too,
+to guarantee chain behavior is kept.
+
 ## About folders structure
 
 As seen, main folder only contains data that Docker can use directly. The rest of the magic lives
@@ -151,6 +189,15 @@ them, but also set connection rules like iptables. This is really important when
 environment is required, an thinking in offering network: "none" plus custom network interfaces
 and bridges work will be enough. There's more things happening in back so, try to stick to
 Docker's network model and customize it from it.
+
+## About inner build processes inside **build/** folder
+
+Inside build/ folder there must be only one set of instruction to build a given image (this applpies
+particularly for dervided images). Every image build MUST BE first class citizen. Composed images
+will be compound of several call to other images already built in other place, not entirely
+inside this new derived image instructions. This is important to give us the chance of mixing
+image construction based on other ones, and avoiding having to go deep build/ folder checking
+unnccessarily. Image builts MUST BE AT THE TOP ALWAYS!
 
 
 ## TODOs

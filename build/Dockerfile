@@ -1,13 +1,13 @@
 FROM ubuntu:17.10
 
 # Version number for WorkMote's Docker Base Image.
-LABEL com.workmote.base.version="0.1"
+LABEL com.workmote.we.base.version="0.1"
 # Maintainer for WorkMote's Docker Base Image.
-LABEL com.workmote.base.maintainer="Daniel Dalgo <dalguete@gmail.com>"
+LABEL com.workmote.we.base.maintainer="Daniel Dalgo <dalguete@gmail.com>"
 # Purpose of anything here installed for WorkMote's Docker Base Image.
-LABEL com.workmote.base.purpose="base"
+LABEL com.workmote.we.base.purpose="base"
 # Application name here installed for WorkMote's Docker Base Image.
-LABEL com.workmote.base.app="base"
+LABEL com.workmote.we.base.app="base"
 
 # To avoid having errors like "unable to initialize frontend: Dialog" when packages
 # are upgraded/installed.
