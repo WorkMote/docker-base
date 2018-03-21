@@ -12,7 +12,8 @@ apt-get install -y \
 	`# build-essential` \
 	bsdmainutils \
 	debconf-utils \
-  iproute2 \
+	dnsutils \
+	iproute2 \
 	iputils-ping \
 	keychain \
   less \
