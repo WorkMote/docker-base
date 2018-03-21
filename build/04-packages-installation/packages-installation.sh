@@ -13,6 +13,7 @@ apt-get install -y \
 	bsdmainutils \
 	debconf-utils \
   iproute2 \
+	iputils-ping \
 	keychain \
   less \
   locales \
