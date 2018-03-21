@@ -4,7 +4,7 @@ services:
     # Defines is the current compose run must pull the image from cloud or build it
     # based on data here defined. (Image 1) defines the cloud version image and (Image 2)
     # a name not cloud based, to be used in local builds.
-    build: ./build/
+    build: ../build/
     ### (Image 1)
     image: workmote/base
     ### (Image 2)
@@ -58,7 +58,7 @@ services:
     # Mount the data folder in container's volume.
     volumes:
       - type: bind
-        source: ./data
+        source: ../data
         target: /data
 
     # IMPORTANT: Next entries (Section 1) are only used for TESTING purposes, while
@@ -80,9 +80,9 @@ services:
 # NOTE: so far only swarm compatible, so better use "secrets"
 # configs:
 #   ini:
-#     file: config/configs.ini
+#     file: ../configs/configs.ini
 
 # Pass ssh-keys info to be used to access container via ssh.
 secrets:
   ssh-keys:
-    file: secrets/ssh-keys/
+    file: ../secrets/ssh-keys/
