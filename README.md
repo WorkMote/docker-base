@@ -256,6 +256,3 @@ unnccessarily. Image builts MUST BE AT THE TOP ALWAYS!
 * Test a better way to trigger subprocesses (currently using supervisord and sudo),
   so first, sudo is not mantained as PID 1, and then, to let supervisord or any
   other PID 1 process, to be able to capture signals sent (for instance, from console)
-
-* Generalize so no hardcoded info is set (like username "workmote"). Such things must be configurable
-  at **build** phase (using ARG directives)

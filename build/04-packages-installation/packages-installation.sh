@@ -15,7 +15,7 @@ apt-get install -y \
 	dnsutils \
 	iproute2 \
 	iputils-ping \
-	keychain \
+	`# keychain` \
   less \
   locales \
 	man-db \

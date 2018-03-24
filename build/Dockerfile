@@ -80,30 +80,31 @@ ENV LANG=en_US.UTF-8 \
   LC_ALL=
 
 # 08
-# Custom user configuration.
-COPY 08-custom-user/ /tmp/08-custom-user/
-RUN /tmp/08-custom-user/custom-user.sh \
-  && rm -r /tmp/08-custom-user/
-
-# 09
 # snap packages configuration.
-COPY 09-snap-packages/ /tmp/09-snap-packages/
-RUN /tmp/09-snap-packages/snap-packages.sh \
-  && rm -r /tmp/09-snap-packages/
+COPY 08-snap-packages/ /tmp/08-snap-packages/
+RUN /tmp/08-snap-packages/snap-packages.sh \
+  && rm -r /tmp/08-snap-packages/
 ENV PATH="${PATH}:/snap/bin"
 
-# 10
+# 09
 # Set the external volume mount place, to be filled with any data meant to be persisted
 # when the container is running.
 VOLUME /data/
 
-# 11
+# 10
 # Setup the default welcome message process.
-COPY 11-welcome/workmote.sh /opt/
+COPY 10-welcome/workmote.sh /opt/
+
+# 11
+# Set the main processes for supervisor to run. The reason of containers using this image.
+COPY 11-supervisor/ /etc/supervisor/conf.d/
 
 # 12
-# Set the main processes for supervisor to run. The reason of containers using this image.
-COPY 12-supervisor/ /etc/supervisor/conf.d/
+# Custom user configuration.
+ARG NEW_USER_NAME="workmote"
+COPY 12-custom-user/ /tmp/12-custom-user/
+RUN /tmp/12-custom-user/custom-user.sh \
+  && rm -r /tmp/12-custom-user/
 
 # 13
 # Perform some final processes.
@@ -113,7 +114,7 @@ RUN /tmp/13-finally/finally.sh \
 
 # 14
 # Setup the user to use to trigger any process inside this contained.
-USER workmote
+USER ${NEW_USER_NAME}
 
 # 15
 # Default process run when nothing explicitely set.

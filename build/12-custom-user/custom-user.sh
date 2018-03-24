@@ -7,8 +7,8 @@ mv $(cd `dirname $0` && pwd)/access-custom-user /usr/local/bin/
 # Add a script to complain when root user was used to login.
 mv $(cd `dirname $0` && pwd)/only-root-user-complainer.sh /etc/profile.d/
 
-# Set the new user account name
-NEW_USER_NAME='workmote'
+# Prepare the new user name var to be used in further scripts run.
+export NEW_USER_NAME
 
 # NOTE: This step of setting the new user's password is no longer enforced, as this user
 # won't really need a password to work. However, process is left here just as a reminder
