@@ -101,7 +101,7 @@ COPY 11-supervisor/ /etc/supervisor/conf.d/
 
 # 12
 # Custom user configuration.
-ARG NEW_USER_NAME="workmote"
+ARG CUSTOM_USER_NAME="workmote"
 COPY 12-custom-user/ /tmp/12-custom-user/
 RUN /tmp/12-custom-user/custom-user.sh \
   && rm -r /tmp/12-custom-user/
@@ -114,7 +114,7 @@ RUN /tmp/13-finally/finally.sh \
 
 # 14
 # Setup the user to use to trigger any process inside this contained.
-USER ${NEW_USER_NAME}
+USER ${CUSTOM_USER_NAME}
 
 # 15
 # Default process run when nothing explicitely set.

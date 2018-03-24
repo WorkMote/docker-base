@@ -1,23 +1,24 @@
 #!/bin/bash
 
-NEW_USER_NAME='workmote'
-NEW_USER_HOME=$(getent passwd "$NEW_USER_NAME" | cut -d: -f6)
-NEW_USER_SSH_KEYS="/run/secrets/ssh-keys/"
+# Get information about the custom user as configured in build phase.
+CUSTOM_USER_NAME="`cat /opt/custom-user-name`"
+CUSTOM_USER_HOME=$(getent passwd "$CUSTOM_USER_NAME" | cut -d: -f6)
+CUSTOM_USER_SSH_KEYS="/run/secrets/ssh-keys/"
 
 # Check there's data in the ssh keys expected repo.
-if [ -z "$(ls -A $NEW_USER_SSH_KEYS)" ]; then
+if [ -z "$(ls -A $CUSTOM_USER_SSH_KEYS)" ]; then
   exit 1
 fi
 
 # Copy the found keys.
-cp -ar "$NEW_USER_SSH_KEYS/"* "$NEW_USER_HOME/.ssh/"
+cp -ar "$CUSTOM_USER_SSH_KEYS/"* "$CUSTOM_USER_HOME/.ssh/"
 
 # Change files' ownsership to match correct user.
-chown "$NEW_USER_NAME.$NEW_USER_NAME" "$NEW_USER_HOME/.ssh/"* -R
+chown "$CUSTOM_USER_NAME.$CUSTOM_USER_NAME" "$CUSTOM_USER_HOME/.ssh/"* -R
 
 # Add pub keys passed as authorized keys to access container.
-cat "$NEW_USER_HOME/.ssh/"*.pub >> "$NEW_USER_HOME/.ssh/authorized_keys"
+cat "$CUSTOM_USER_HOME/.ssh/"*.pub >> "$CUSTOM_USER_HOME/.ssh/authorized_keys"
 
 # Fix ownsership and perms in file just affected.
-chown "$NEW_USER_NAME.$NEW_USER_NAME" "$NEW_USER_HOME/.ssh/authorized_keys"
-chmod 0600 "$NEW_USER_HOME/.ssh/authorized_keys"
+chown "$CUSTOM_USER_NAME.$CUSTOM_USER_NAME" "$CUSTOM_USER_HOME/.ssh/authorized_keys"
+chmod 0600 "$CUSTOM_USER_HOME/.ssh/authorized_keys"

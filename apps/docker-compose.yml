@@ -2,9 +2,13 @@ version: '3.5'
 services:
   base:
     # Defines is the current compose run must pull the image from cloud or build it
-    # based on data here defined. (Image 1) defines the cloud version image and (Image 2)
+    # based on data here defined. Build variables are defined too, so they can be changed.
+    # (Image 1) defines the cloud version image and (Image 2)
     # a name not cloud based, to be used in local builds.
-    build: ../build/
+    build:
+      context: ../build/
+      # args:
+      #   - CUSTOM_USER_NAME="workmote"
     ### (Image 1)
     image: workmote/base
     ### (Image 2)
