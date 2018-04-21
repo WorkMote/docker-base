@@ -1,5 +1,6 @@
 configs/*
 !configs/README*
+!configs/configs.env.base
 data/*
 !data/README*
 secrets/*

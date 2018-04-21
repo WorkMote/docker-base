@@ -3,7 +3,7 @@
 # Get information about the custom user as configured in build phase.
 CUSTOM_USER_NAME="`cat /opt/custom-user-name`"
 CUSTOM_USER_HOME=$(getent passwd "$CUSTOM_USER_NAME" | cut -d: -f6)
-CUSTOM_USER_SSH_KEYS="/run/secrets/ssh-keys/"
+CUSTOM_USER_SSH_KEYS="/run/secrets/ssh-keys"
 
 # Check there's data in the ssh keys expected repo.
 if [ -z "$(ls -A $CUSTOM_USER_SSH_KEYS)" ]; then
@@ -11,7 +11,7 @@ if [ -z "$(ls -A $CUSTOM_USER_SSH_KEYS)" ]; then
 fi
 
 # Copy the found keys.
-cp -ar "$CUSTOM_USER_SSH_KEYS/"* "$CUSTOM_USER_HOME/.ssh/"
+cp -ar "$CUSTOM_USER_SSH_KEYS"/* "$CUSTOM_USER_HOME/.ssh/"
 
 # Change files' ownsership to match correct user.
 chown "$CUSTOM_USER_NAME.$CUSTOM_USER_NAME" "$CUSTOM_USER_HOME/.ssh/"* -R

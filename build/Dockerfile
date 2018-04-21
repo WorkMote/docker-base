@@ -119,9 +119,9 @@ USER ${CUSTOM_USER_NAME}
 # 15
 # Default process run when nothing explicitely set.
 # Notice the usage of 'sudo', to enable current user execute root's tasks.
-ENTRYPOINT exec sudo /opt/workmote.sh
+ENTRYPOINT exec sudo -E /opt/workmote.sh
 
 # 16
 # For any child image build on top of this, trigger processes as defined for the controller script.
 # Notice the usage of 'sudo', to enable current user execute root's tasks.
-ONBUILD ENTRYPOINT exec sudo /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+ONBUILD ENTRYPOINT exec sudo -E /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
