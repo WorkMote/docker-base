@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Get information about the custom user as configured in build phase.
+CustomUsername="`cat /opt/custom-user-name`"
+CustomUserHome=$(getent passwd "$CustomUsername" | cut -d: -f6)
+CustomUserSshKeys="/run/secrets/ssh-keys"
+
+# Check there's data in the ssh keys expected repo.
+if [ -z "$(ls -A $CustomUserSshKeys)" ]; then
+  exit 1
+fi
+
+# Copy the found keys.
+cp -ar "$CustomUserSshKeys"/* "$CustomUserHome/.ssh/"
+
+# Change files' ownsership to match correct user.
+chown "$CustomUsername.$CustomUsername" "$CustomUserHome/.ssh/"* -R
+
+# Add pub keys passed as authorized keys to access container.
+cat "$CustomUserHome/.ssh/"*.pub >> "$CustomUserHome/.ssh/authorized_keys"
+
+# Fix ownsership and perms in file just affected.
+chown "$CustomUsername.$CustomUsername" "$CustomUserHome/.ssh/authorized_keys"
+chmod 0600 "$CustomUserHome/.ssh/authorized_keys"

@@ -19,3 +19,6 @@ mv $(cd `dirname $0` && pwd)/my-snaps-starter /usr/local/bin/
 mkdir -p /snap/bin
 mkdir -p /snap/share
 mv $(cd `dirname $0` && pwd)/snap-share/* /snap/share/
+
+# Move the my bindfs mounter script to the system.
+mv $(cd `dirname $0` && pwd)/my-bindfs-mounts-init /usr/local/bin/

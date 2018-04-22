@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Gets the snap name passed.
-name="$1"
+Name="$1"
 shift
 
 # Setup some vars to be used in the process of triggering the original snap command.
-export SNAP="/snap/$name"
+export SNAP="/snap/$Name"
 
 # Get the hook to run and call it
-hook="$1"
-exec "$hook"
+Hook="$1"
+exec "$Hook"

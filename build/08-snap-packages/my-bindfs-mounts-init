@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Wait for the my-bindfs-mounts command to be available.
+while [ -z `which my-bindfs-mounts` ];
+do
+  sleep 1;
+done;
+
+# Perform bindfs mounts based on config file.
+my-bindfs-mounts --load-from-file;

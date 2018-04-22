@@ -28,3 +28,6 @@ sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/; s/#PasswordAut
 # so, that service is explicitely started and stopped here to have all strings attached.
 service ssh start
 service ssh stop
+
+# Move the my sshd init script to the system.
+mv $(cd `dirname $0` && pwd)/sshd-init /usr/local/bin/

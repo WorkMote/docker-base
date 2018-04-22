@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# This script is aimed to be run when the container is up and running, by a different
+# process (like supervisor). Please, verify this script is appropiately started.
+
+# snaps source point
+Source="/my-snap"
+
+# snaps destination point
+Destination="/snap"
+
+# snaps destination bin
+DestinationBin="$Destination/bin"
+
+# snaps hooks trigger
+MySnapsHooksTrigger="$Destination/share/my-snaps-hooks-trigger"
+
+# snaps trigger
+MySnapsTrigger="$Destination/share/my-snaps-trigger"
+
+# Get a list of items to iterate through.
+List=$(sh -c "find \"$Source\" -mindepth 1 -maxdepth 1 -name *.snap -printf \"%f\n\"")
+
+# Loop through every item to start working with each snap obtained.
+while read Original; do
+  # Extract the package original name.
+  Name=$(echo $Original | sed -e 's/\.snap$//' -e 's/_[^_]*$//' -e 's/_[^_]*$//')
+
+  # Create a directory using package's name.
+  mkdir "$Destination/$Name"
+
+  # Mount the snap into the new created mount point.
+  # Ensure perms are correctly set so other user can execute commands here defined.
+  squashfuse -o allow_other "$Source/$Original" "$Destination/$Name"
+
+  # Run install hooks (if any)
+  ReturnCode=0;
+  if [[ -f "$Destination/$Name/snap/hooks/install" && -x "$Destination/$Name/snap/hooks/install" ]]; then
+    "$MySnapsHooksTrigger" "$Name" "$Destination/$Name/snap/hooks/install"
+    ReturnCode=$?
+  fi
+
+  # In case installation failed, skip to the next package.
+  if [[ $ReturnCode != 0 ]]; then
+    echo "Snap $Original install hook failed" >&2
+    continue
+  fi
+
+  # Obtain a list of commands to put at work.
+  # NOTE: There was an implementation problem using the commented instruction below. For some
+  # reason wildcards were not expanding.
+  # Found the solution here:
+  # https://www.linuxquestions.org/questions/linux-newbie-8/how-can-i-use-sudo-with-a-wildcard-in-file-names-%2A-doesn%27t-work-940669/#post4657584
+  #
+  # Commands=$(ls -1 "$Destination/$Name/command*.wrapper")
+  Commands=$(sh -c "find \"$Destination/$Name\" -mindepth 1 -maxdepth 1 -name command*.wrapper -printf \"%f\n\"")
+
+  # Loop through every command obtained.
+  while read Entry; do
+    # Extract the final command name to use.
+    Command=$(echo $Entry | sed -e 's/^command-//' | sed -e 's/\.wrapper$//')
+
+    # Create a symlink to general snaps trigger.
+    ln -s "$MySnapsTrigger" "$DestinationBin/$Command"
+  done <<< "$Commands"
+
+  # Run configure hooks (if any)
+  ReturnCode=0;
+  if [[ -f "$Destination/$Name/snap/hooks/configure" && -x "$Destination/$Name/snap/hooks/configure" ]]; then
+    "$MySnapsHooksTrigger" "$Name" "$Destination/$Name/snap/hooks/configure"
+    ReturnCode=$?
+  fi
+
+  # In case configuration failed, send a notification message.
+  if [[ $ReturnCode != 0 ]]; then
+    echo "Snap $Original configure hook failed" >&2
+  fi
+done <<< "$List"

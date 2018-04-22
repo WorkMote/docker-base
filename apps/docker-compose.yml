@@ -8,15 +8,20 @@ services:
     build:
       context: ../build/
       # args:
-      #   - CUSTOM_USER_NAME="workmote"
+      #   - CustomUsername=${ContainerUsername:-workmote}
     ### (Image 1)
-    image: workmote/base
+    image: ${BaseImage:-workmote/base}
     ### (Image 2)
-    # image: wrk.mt-base
+    # image: ${BaseLocalImage:-wrk.mt-base}
 
     # Basic naming conventions for running container.
-    container_name: workmote-base
-    hostname: workmote-base
+    container_name: ${BaseContainerName:-workmote-base}
+    hostname: ${BaseHostname:-workmote-base}
+
+    # Setup general environment variables as defined for the container by the user
+    env_file:
+      - ../configs/configs.env.base
+      - .env
 
     # Add setting to allow fuse mounts inside container.
     cap_add:
@@ -51,7 +56,7 @@ services:
     # Load configs info to be used in the container.
     # NOTE: so far only swarm compatible, so better use "secrets"
     # configs:
-    #   - source: ini
+    #   - source: env
 
     # Load secrets info to be used in the container.
     secrets:
@@ -78,13 +83,11 @@ services:
     # stdin_open: true
     # tty: true
     ### (Section 2)
-    # entrypoint: sudo /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+    # entrypoint: sudo -E /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 
 # Pass configs to container.
 # NOTE: so far only swarm compatible, so better use "secrets"
 # configs:
-#   ini:
-#     file: ../configs/configs.ini
 
 # Pass ssh-keys info to be used to access container via ssh.
 secrets:

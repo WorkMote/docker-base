@@ -96,15 +96,15 @@ VOLUME /data/
 COPY 10-welcome/workmote.sh /opt/
 
 # 11
-# Set the main processes for supervisor to run. The reason of containers using this image.
-COPY 11-supervisor/ /etc/supervisor/conf.d/
+# Custom user configuration.
+ARG CustomUsername="workmote"
+COPY 11-custom-user/ /tmp/11-custom-user/
+RUN /tmp/11-custom-user/custom-user.sh \
+  && rm -r /tmp/11-custom-user/
 
 # 12
-# Custom user configuration.
-ARG CUSTOM_USER_NAME="workmote"
-COPY 12-custom-user/ /tmp/12-custom-user/
-RUN /tmp/12-custom-user/custom-user.sh \
-  && rm -r /tmp/12-custom-user/
+# Set the main processes for supervisor to run. The reason of containers using this image.
+COPY 12-supervisor/ /etc/supervisor/conf.d/
 
 # 13
 # Perform some final processes.
@@ -114,14 +114,16 @@ RUN /tmp/13-finally/finally.sh \
 
 # 14
 # Setup the user to use to trigger any process inside this contained.
-USER ${CUSTOM_USER_NAME}
+USER ${CustomUsername}
 
 # 15
 # Default process run when nothing explicitely set.
-# Notice the usage of 'sudo', to enable current user execute root's tasks.
+# Notice the usage of 'sudo', to enable current user execute root's tasks, and -E, to pass
+# further down all system env vars set with current user.
 ENTRYPOINT exec sudo -E /opt/workmote.sh
 
 # 16
 # For any child image build on top of this, trigger processes as defined for the controller script.
-# Notice the usage of 'sudo', to enable current user execute root's tasks.
+# Notice the usage of 'sudo', to enable current user execute root's tasks, and -E, to pass
+# further down all system env vars set with current user.
 ONBUILD ENTRYPOINT exec sudo -E /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
