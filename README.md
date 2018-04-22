@@ -1,4 +1,4 @@
-# docker-base
+# docker-base ![MicroBadger Size](https://img.shields.io/microbadger/image-size/workmote/base.svg)
 
 Base image to use in Docker Envs for WorkMote.
 
