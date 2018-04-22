@@ -12,7 +12,7 @@ fi
 mv $(cd `dirname $0` && pwd)/snap-packages/*.snap /my-snap/
 
 # Move the snaps starter script to the system.
-mv $(cd `dirname $0` && pwd)/my-snaps-starter /usr/local/bin/
+mv $(cd `dirname $0` && pwd)/my-snaps-starter-init /usr/local/bin/
 
 # As snaps will be triggered in a super custom fashion, to avoid snap/docker
 # function problem, the /snap folder is prepared to receive our scripts.
