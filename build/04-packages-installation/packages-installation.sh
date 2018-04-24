@@ -7,6 +7,7 @@ apt-get update
 # Expensive, yes, but did the work. In General, DO NOT DO THAT!!! I have some special
 # blessing, you know!
 apt-get install -y \
+  autossh \
   bash-completion \
   bindfs \
   `# build-essential` \
